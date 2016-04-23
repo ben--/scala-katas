@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <option name="postfixOps" value="true" />
-    <profile name="SBT 1" modules="primes">
-      <plugins>
-        <plugin path="$USER_HOME$/.ivy2/cache/com.artima.supersafe/supersafe_2.11.7/jars/supersafe_2.11.7-1.1.0-RC6.jar" />
-      </plugins>
-    </profile>
+    <profile name="SBT 1" modules="primes" />
   </component>
 </project>
