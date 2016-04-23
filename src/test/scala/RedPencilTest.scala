@@ -75,6 +75,17 @@ class RedPencilTest extends FlatSpec with Matchers {
     subject.redPencil should be (false)
   }
 
+  it should "red pencil for 30 days" in {
+    val priceHistory = List(
+      (20.00, DateTime.now - 30.days),
+      (25.00, DateTime.now - 90.days)
+    )
+
+    val subject = RedPencil(priceHistory)
+
+    subject.redPencil should be (true)
+  }
+
   it should "not red pencil longer than 30 days" in {
     val priceHistory = List(
       (20.00, DateTime.now - 31.days),
