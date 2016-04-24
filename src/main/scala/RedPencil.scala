@@ -1,16 +1,25 @@
 import com.github.nscala_time.time.Imports._
 
-case class RedPencil(priceHistory: List[(Double, DateTime)]) {
-  val Precision = 1e-9
+case class PriceEntry(price: Double, time: DateTime)
 
-  def redPencil: Boolean = {
+case class RedPencil(priceHistory: List[PriceEntry]) {
+
+  def redPencil(asOf: DateTime): Boolean = {
     if (priceHistory.length < 2)
       false
-    else if (priceHistory(0)._2 < DateTime.now - 30.days)
+    else if (new RedPencil(priceHistory.tail).redPencil(priceHistory.head.time))
       false
-    else {
-      val discount = 1 - (priceHistory(0)._1 / priceHistory(1)._1)
-      0.05 - Precision < discount && discount < 0.30 + Precision
-    }
+    else if (priceHistory.head.time < asOf - 30.days)
+      false
+    else
+      discountTriggersRedPencil
   }
+
+  val Precision = 1e-9
+  private val minDiscount: Double = 0.05 - Precision
+  private val maxDiscount: Double = 0.30 + Precision
+
+  private def discountTriggersRedPencil = minDiscount < discount && discount < maxDiscount
+
+  private def discount = 1 - (priceHistory.head.price / priceHistory.tail.head.price)
 }
